@@ -7,7 +7,7 @@
     "start": "npm run build && node lib",
     "build": "babel -d lib/ src/",
     "prepublish": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --no-watchman"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-0": "^6.22.0"
+    "babel-preset-stage-0": "^6.22.0",
+    "jest": "^18.1.0",
+    "nock": "^9.0.2"
   }
 }
