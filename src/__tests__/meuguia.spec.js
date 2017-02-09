@@ -6,21 +6,33 @@ const html = fs.readFileSync('src/__tests__/html/sample.html', 'utf8')
 const expected = [{
     title: 'Igreja Universal',
     time: '09h00',
-    channel: 'Canal 21'
+    channel: {
+      description: 'Canal 21',
+      id: 'C21'
+    }
   },
   {
     title: 'Top TVZ',
     time: '10h00',
-    channel: 'Multishow'
+    channel: {
+      description: 'Multishow',
+      id: 'MSW',
+    }
   },
   {
     title: 'Fala Brasil Especial',
     time: '10h00',
-    channel: 'Record News'
+    channel: {
+      description: 'Record News',
+      id: 'RCN'
+    }
   }, {
     title: 'Leilão Virtual Chave de Ouro',
     time: '10h00',
-    channel: 'Terra Viva'
+    channel: {
+      description: 'Terra Viva',
+      id: 'TVV'
+    }
   }
 ]
 
@@ -29,11 +41,9 @@ describe('getAll', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getAll((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getAll()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -42,11 +52,9 @@ describe('getMovies', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getMovies((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getMovies()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -55,11 +63,9 @@ describe('getTvSeries', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getTvSeries((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getTvSeries()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -68,11 +74,9 @@ describe('getSports', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getSports((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getSports()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -81,11 +85,9 @@ describe('getKids', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getKids((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getKids()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -94,11 +96,9 @@ describe('getDocumentaries', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getDocumentaries((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getDocumentaries()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -107,11 +107,9 @@ describe('getNews', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getNews((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getNews()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -120,11 +118,9 @@ describe('getOpen', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getOpen((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getOpen()
+      .then(results => expect(results).toEqual(expected))
   })
 })
 
@@ -133,10 +129,8 @@ describe('getEntertainment', () => {
     .get(/\/programacao/)
     .reply(200, html)
 
-  it('should return expected', done => {
-    meuguia.getEntertainment((err, results) => {
-      expect(results).toEqual(expected)
-      done()
-    })
+  it('should return expected', () => {
+    return meuguia.getEntertainment()
+      .then(results => expect(results).toEqual(expected))
   })
 })

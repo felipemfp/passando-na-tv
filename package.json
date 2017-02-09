@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/felipemfp/passando-na-tv#readme",
   "dependencies": {
-    "x-ray": "^2.3.1"
+    "x-ray": "^2.3.1",
+    "meow": "^3.7.0",
+    "inquirer": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -28,5 +30,8 @@
     "babel-preset-stage-0": "^6.22.0",
     "jest": "^18.1.0",
     "nock": "^9.0.2"
+  },
+  "jest": {
+    "rootDir": "src"
   }
 }

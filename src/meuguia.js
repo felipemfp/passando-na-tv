@@ -1,48 +1,74 @@
 import Xray from 'x-ray'
 const x = Xray()
 
-const URL = {
-  ALL: 'http://meuguia.tv/programacao/categoria/Todos',
-  MOVIES: 'http://meuguia.tv/programacao/categoria/Filmes',
-  TVSERIES: 'http://meuguia.tv/programacao/categoria/Series',
-  SPORTS: 'http://meuguia.tv/programacao/categoria/Esportes',
-  KIDS: 'http://meuguia.tv/programacao/categoria/Infantil',
-  DOCUMENTARIES: 'http://meuguia.tv/programacao/categoria/Documentarios',
-  NEWS: 'http://meuguia.tv/programacao/categoria/Noticias',
-  OPEN: 'http://meuguia.tv/programacao/categoria/Aberta',
-  ENTERTAINMENT: 'http://meuguia.tv/programacao/categoria/Variedades'
+const URL_BASE = 'http://meuguia.tv'
+
+const ENDPOINTS = {
+  ALL: '/programacao/categoria/Todos',
+  MOVIES: '/programacao/categoria/Filmes',
+  TVSERIES: '/programacao/categoria/Series',
+  SPORTS: '/programacao/categoria/Esportes',
+  KIDS: '/programacao/categoria/Infantil',
+  DOCUMENTARIES: '/programacao/categoria/Documentarios',
+  NEWS: '/programacao/categoria/Noticias',
+  OPEN: '/programacao/categoria/Aberta',
+  ENTERTAINMENT: '/programacao/categoria/Variedades'
 }
 
-const scrape = (urlOrHtml) => {
-  return x(urlOrHtml, 'li', [{
+const url = (urlBase, endpoint) => `${ urlBase }${ endpoint }`
+
+const scrape = (url) => {
+  return x(url, 'li', [{
     title: 'li .prog_comp_tit',
     time: 'li .metadados strong',
-    channel: 'li .metadados'
+    channel: {
+      id: 'li a@href',
+      description: 'li .metadados'
+    }
   }])
 }
 
-const normalize = (callback) => {
+const normalize = (resolve, reject) => {
   return (err, results) => {
     if (err) {
-      callback(err)
+      return reject(err)
     }
-    callback(null, results.map(result => ({
-      ...result,
-      channel: result.channel.split('|')[1].trim()
-    })))
+    return resolve(results.map(result => {
+      if (!result.title) {
+        return
+      }
+      let { id, description } = result.channel
+      return {
+        ...result,
+        channel: {
+          description: description.split('|')[1].trim(),
+          id: id.split('/').slice(-1)[0].trim()
+        }
+      }
+    }).filter(result => result))
   }
 }
 
-const get = (urlOrHtml, callback) => {
-  scrape(urlOrHtml)(normalize(callback))
+const get = (url) => {
+  return new Promise((resolve, reject) => {
+    scrape(url)(normalize(resolve, reject))
+  })
 }
 
-export const getAll = (callback) => get(URL.ALL, callback)
-export const getMovies = (callback) => get(URL.MOVIES, callback)
-export const getTvSeries = (callback) => get(URL.TVSERIES, callback)
-export const getSports = (callback) => get(URL.SPORTS, callback)
-export const getKids = (callback) => get(URL.KIDS, callback)
-export const getDocumentaries = (callback) => get(URL.DOCUMENTARIES, callback)
-export const getNews = (callback) => get(URL.NEWS, callback)
-export const getOpen = (callback) => get(URL.OPEN, callback)
-export const getEntertainment = (callback) => get(URL.ENTERTAINMENT, callback)
+export const getAll = () => get(url(URL_BASE, ENDPOINTS.ALL))
+
+export const getMovies = () => get(url(URL_BASE, ENDPOINTS.MOVIES))
+
+export const getTvSeries = () => get(url(URL_BASE, ENDPOINTS.TVSERIES))
+
+export const getSports = () => get(url(URL_BASE, ENDPOINTS.SPORTS))
+
+export const getKids = () => get(url(URL_BASE, ENDPOINTS.KIDS))
+
+export const getDocumentaries = () => get(url(URL_BASE, ENDPOINTS.DOCUMENTARIES))
+
+export const getNews = () => get(url(URL_BASE, ENDPOINTS.NEWS))
+
+export const getOpen = () => get(url(URL_BASE, ENDPOINTS.OPEN))
+
+export const getEntertainment = () => get(url(URL_BASE, ENDPOINTS.ENTERTAINMENT))
