@@ -2,9 +2,9 @@
   "name": "passando-na-tv",
   "version": "0.1.1",
   "description": "O que está passando na TV?",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "bin": {
-    "passando-na-tv": "lib/index.js"
+    "passando-na-tv": "./lib/index.js"
   },
   "scripts": {
     "prestart": "npm run build --silent",

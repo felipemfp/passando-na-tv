@@ -1,12 +1,9 @@
 import meow from 'meow'
 import inquirer from 'inquirer'
 import chalk from 'chalk'
-import updateNotifier from 'update-notifier'
-import pkg from '../package.json'
+// import updateNotifier from 'update-notifier'
+// import pkg from '../package.json'
 import * as meuguia from './meuguia'
-
-const notifier = updateNotifier(pkg)
-notifier.notify()
 
 const categories = {
   'todos': meuguia.getAll,
