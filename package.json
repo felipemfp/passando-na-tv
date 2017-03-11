@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "O que está passando na TV?",
   "main": "lib/index.js",
+  "bin": {
+    "passando-na-tv": "lib/index.js"
+  },
   "scripts": {
     "prestart": "npm run build --silent",
     "start": "node .",
@@ -14,6 +17,10 @@
     "type": "git",
     "url": "git+https://github.com/felipemfp/passando-na-tv.git"
   },
+  "keywords": [
+    "meuguia.tv",
+    "tv"
+  ],
   "author": "Felipe Pontes <felipemfpontes@gmail.com> (https://felipemfp.github.io)",
   "license": "MIT",
   "bugs": {

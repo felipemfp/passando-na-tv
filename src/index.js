@@ -40,6 +40,8 @@ const cli = meow(`
     ... lista de programas em apenas os canais de filmes
     $ passando-na-tv axn
     ... lista de programas nos canais AXN
+
+  Dados fornecidos por meuguia.TV
   `, {
     alias: {
       f: 'filmes',
