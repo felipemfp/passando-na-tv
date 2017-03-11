@@ -15,7 +15,7 @@ const ENDPOINTS = {
   ENTERTAINMENT: '/programacao/categoria/Variedades'
 }
 
-const url = (urlBase, endpoint) => `${ urlBase }${ endpoint }`
+const url = (urlBase, endpoint) => `${urlBase}${endpoint}`
 
 const scrape = (url) => {
   return x(url, 'li', [{
