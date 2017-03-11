@@ -1,6 +1,6 @@
 {
   "name": "passando-na-tv",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "O que está passando na TV?",
   "main": "lib/index.js",
   "bin": {
