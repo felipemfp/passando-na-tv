@@ -1,9 +1,14 @@
+#!/usr/bin/env node
+
 import meow from 'meow'
 import inquirer from 'inquirer'
 import chalk from 'chalk'
-// import updateNotifier from 'update-notifier'
-// import pkg from '../package.json'
+import updateNotifier from 'update-notifier'
 import * as meuguia from './meuguia'
+import pkg from '../package.json'
+
+const notifier = updateNotifier({pkg})
+notifier.notify()
 
 const categories = {
   'todos': meuguia.getAll,
@@ -91,7 +96,7 @@ if (arg === 'help') {
       return resultsSorted
     })
     .then(results => results.map(result => ({
-      name: `[${chalk.blue(result.channel.description)}] ${result.title} - ${chalk.green(result.time)}`
+      name: `${chalk.blue('[' + result.channel.description + ']')} ${result.title} ${chalk.yellow('@')} ${chalk.green(result.time)}`
     })))
     .then(choices => {
       return [{
