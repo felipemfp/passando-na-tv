@@ -1,6 +1,6 @@
 import inquirer from 'inquirer'
 import chalk from 'chalk'
-import * as meuguia from './meuguia'
+import meuguia from 'meuguia'
 
 const requestByCategory = {
   'todos': meuguia.getAll,
@@ -21,11 +21,11 @@ class PassandoNaTvCli {
 
   list (category) {
     requestByCategory[category]()
-      .then(this._filterResultsByInput)
-      .then(this._checkResults)
-      .then(this._sortResultsByChannel)
-      .then(this._formatResults)
-      .then(this._createListFromResults)
+      .then(results => this._filterResultsByInput(results))
+      .then(results => this._checkResults(results))
+      .then(results => this._sortResultsByChannel(results))
+      .then(results => this._formatResults(results))
+      .then(results => this._createListFromResults(results))
       .then(inquirer.prompt)
       .catch(this._handleError)
   }
