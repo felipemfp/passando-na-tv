@@ -44,7 +44,7 @@ npm i -g passando-na-tv
 
 ### Feito com...
 
-- [x-ray](https://github.com/lapwinglabs/x-ray)
+- [meuguia.js](https://github.com/felipemfp/meuguia.js)
 - [meow](https://github.com/sindresorhus/meow)
 - [inquirer.js](https://github.com/SBoudrias/Inquirer.js)
 - [chalk](https://github.com/chalk/chalk)
