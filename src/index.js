@@ -1,26 +1,12 @@
 #!/usr/bin/env node
 
 import meow from 'meow'
-import inquirer from 'inquirer'
-import chalk from 'chalk'
 import updateNotifier from 'update-notifier'
-import * as meuguia from './meuguia'
 import pkg from '../package.json'
+import PassandoNaTvCli from './passandoNaTv'
 
 const notifier = updateNotifier({pkg})
 notifier.notify()
-
-const categories = {
-  'todos': meuguia.getAll,
-  'filmes': meuguia.getMovies,
-  'series': meuguia.getTvSeries,
-  'esportes': meuguia.getSports,
-  'infantil': meuguia.getKids,
-  'documentarios': meuguia.getDocumentaries,
-  'noticias': meuguia.getNews,
-  'abertos': meuguia.getOpen,
-  'entretenimento': meuguia.getEntertainment
-}
 
 const cli = meow(`
   Como usar
@@ -60,58 +46,10 @@ const cli = meow(`
 
 const arg = Object.keys(cli.flags).filter(f => f.length > 1)[0] || 'todos'
 
-if (arg === 'help') {
+const passandoNaTvCli = new PassandoNaTvCli(cli)
+
+if (arg === 'help' || !passandoNaTvCli.isValidCategory(arg)) {
   cli.showHelp()
-} else if (categories[arg]) {
-  categories[arg]()
-    .then(results => results.filter(result => {
-      if (cli.input.length > 0) {
-        let channel = result.channel.description.toLowerCase()
-        return cli.input.some(input => channel.indexOf(input) > -1)
-      }
-      return true
-    }))
-    .then(results => {
-      if (results.length === 0) {
-        if (cli.input.length > 0) {
-          console.log(`Sem resultados para: ${chalk.red(cli.input.join(', '))}.`)
-        } else {
-          console.log(`Sem resultados.`)
-        }
-        throw new Error('No results.')
-      }
-      return results
-    })
-    .then(results => {
-      let resultsSorted = [...results]
-      resultsSorted.sort((a, b) => {
-        if (a.channel.description > b.channel.description) {
-          return 1
-        }
-        if (a.channel.description < b.channel.description) {
-          return -1
-        }
-        return 0
-      })
-      return resultsSorted
-    })
-    .then(results => results.map(result => ({
-      name: `${chalk.blue('[' + result.channel.description + ']')} ${result.title} ${chalk.yellow('@')} ${chalk.green(result.time)}`
-    })))
-    .then(choices => {
-      return [{
-        name: 'show',
-        message: 'Passando na TV...',
-        type: 'list',
-        choices
-      }]
-    })
-    .then(inquirer.prompt)
-    .catch(err => {
-      if (err.message !== 'No results.') {
-        console.log('Algo deu errado.', chalk.red('Você tem internet?'))
-      }
-    })
 } else {
-  cli.showHelp()
+  passandoNaTvCli.list(arg)
 }
